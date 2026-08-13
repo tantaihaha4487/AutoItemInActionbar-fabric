@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "autoiteminactionbar",
+  "version": "${version}",
+
+  "name": "AutoItemInActionbar",
+  "description": "Automatically refills used items in the player's hand from their inventory.",
+  "authors": ["tantaihaha4487"],
+  "contact": {
+    "sources": "https://github.com/tantaihaha4487/AutoItemInActionbar-fabric"
+  },
+
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.thanachot.autoiteminactionbar.AutoItemInActionbar"
+    ]
+  },
+  "mixins": [
+    "autoiteminactionbar.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "java": ">=25",
+    "fabric-api": ">=0.155.2+26.1.2",
+    "minecraft": "~${minecraft_version}"
+  }
+}

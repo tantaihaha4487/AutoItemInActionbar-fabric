@@ -9,15 +9,17 @@ import java.util.UUID;
 import java.util.stream.IntStream;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -125,7 +127,15 @@ public final class RefillCoordinator {
         MutableComponent name = Component.literal("Auto Item In Actionbar")
                 .withStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x55EA80)));
         player.sendOverlayMessage(prefix.append(name));
-        player.playSound(SoundEvents.PLAYER_LEVELUP, 0.6F, 0.7F);
+        player.connection.send(new ClientboundSoundPacket(
+                BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.PLAYER_LEVELUP),
+                SoundSource.MASTER,
+                player.getX(),
+                player.getY(),
+                player.getZ(),
+                0.6F,
+                0.7F,
+                player.getRandom().nextLong()));
     }
 
     private record RequestKey(UUID playerId, InteractionHand hand, RefillMode mode) {
